@@ -16,14 +16,14 @@
 
 #import "MaterialTextFields.h"
 
-@interface TextFieldManualLayoutExample : UIViewController <UITextFieldDelegate>
+@interface TextFieldManualLayoutLegacyExample : UIViewController <UITextFieldDelegate>
 
-@property(nonatomic) MDCTextInputControllerDefault *nameController;
-@property(nonatomic) MDCTextInputControllerDefault *phoneController;
+@property(nonatomic) MDCTextInputControllerLegacyDefault *nameController;
+@property(nonatomic) MDCTextInputControllerLegacyDefault *phoneController;
 
 @end
 
-@implementation TextFieldManualLayoutExample
+@implementation TextFieldManualLayoutLegacyExample
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -36,7 +36,7 @@
   textFieldName.delegate = self;
   textFieldName.clearButtonMode = UITextFieldViewModeUnlessEditing;
 
-  self.nameController = [[MDCTextInputControllerDefault alloc] initWithTextInput:textFieldName];
+  self.nameController = [[MDCTextInputControllerLegacyDefault alloc] initWithTextInput:textFieldName];
 
   textFieldName.frame = CGRectMake(10, 40, CGRectGetWidth(self.view.bounds) - 20, 0);
 
@@ -47,7 +47,7 @@
   textFieldPhone.delegate = self;
   textFieldPhone.clearButtonMode = UITextFieldViewModeUnlessEditing;
 
-  self.phoneController = [[MDCTextInputControllerDefault alloc] initWithTextInput:textFieldPhone];
+  self.phoneController = [[MDCTextInputControllerLegacyDefault alloc] initWithTextInput:textFieldPhone];
 
   textFieldPhone.frame = CGRectMake(10, CGRectGetMaxY(self.nameController.textInput.frame) + 20,
                                     CGRectGetWidth(self.view.bounds) - 20, 0);
@@ -129,23 +129,29 @@
   // against invalid phone numbers (like those that begin with 0), and perhaps even auto-inserts the
   // hyphens so the user doesn't have to.
 
+  if (inputString.length == 0) {
+    return YES;
+  }
+
   NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789-"];
   characterSet = [characterSet invertedSet];
 
-  BOOL isValid = [inputString rangeOfCharacterFromSet:characterSet].length;
+  BOOL isValid = ![inputString rangeOfCharacterFromSet:characterSet].length;
 
   if (!isPartialCheck) {
     isValid = isValid && inputString.length == 12;
+  } else {
+    isValid = isValid && inputString.length <= 12;
   }
   return isValid;
 }
 
 @end
 
-@implementation TextFieldManualLayoutExample (CatalogByConvention)
+@implementation TextFieldManualLayoutLegacyExample (CatalogByConvention)
 
 + (NSArray *)catalogBreadcrumbs {
-  return @[ @"Text Field", @"Manual Layout (Objective C)" ];
+  return @[ @"Text Field", @"[Legacy] Manual Layout (Objective C)" ];
 }
 
 @end

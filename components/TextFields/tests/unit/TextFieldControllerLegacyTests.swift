@@ -20,71 +20,84 @@
 import XCTest
 import MaterialComponents.MaterialTextFields
 
-class TextFieldControllerDefaultTests: XCTestCase {
-  func testCopyingDefault() {
+class TextFieldControllerDefaultLegacyTests: XCTestCase {
+  func testCopyingLegacyDefault() {
     let textField = MDCTextField()
 
-    let controller = MDCTextInputControllerDefault(textInput: textField)
+    let controller = MDCTextInputControllerLegacyDefault(textInput: textField)
     controller.characterCountMax = 49
     controller.characterCountViewMode = .always
+    controller.disabledColor = .orange
     controller.isFloatingEnabled = false
     controller.floatingPlaceholderColor = .purple
     controller.floatingPlaceholderScale = 0.1
     controller.helperText = "Helper"
     controller.inlinePlaceholderColor = .green
-    controller.underlineColorActive = .blue
-    controller.underlineColorNormal = .white
+    controller.activeColor = .blue
+    controller.normalColor = .white
     controller.underlineViewMode = .always
+    controller.leadingUnderlineLabelTextColor = .yellow
+    controller.trailingUnderlineLabelTextColor = .orange
 
-    if let controllerCopy = controller.copy() as? MDCTextInputControllerDefault {
+    if let controllerCopy = controller.copy() as? MDCTextInputControllerLegacyDefault {
       XCTAssertEqual(controller.characterCountMax, controllerCopy.characterCountMax)
       XCTAssertEqual(controller.characterCountViewMode, controllerCopy.characterCountViewMode)
+      XCTAssertEqual(controller.disabledColor, controllerCopy.disabledColor)
       XCTAssertEqual(controller.isFloatingEnabled, controllerCopy.isFloatingEnabled)
       XCTAssertEqual(controller.floatingPlaceholderColor, controllerCopy.floatingPlaceholderColor)
       XCTAssertEqual(controller.floatingPlaceholderScale, controllerCopy.floatingPlaceholderScale)
       XCTAssertEqual(controller.helperText, controllerCopy.helperText)
       XCTAssertEqual(controller.inlinePlaceholderColor, controllerCopy.inlinePlaceholderColor)
-      XCTAssertEqual(controller.underlineColorActive, controllerCopy.underlineColorActive)
-      XCTAssertEqual(controller.underlineColorNormal, controllerCopy.underlineColorNormal)
+      XCTAssertEqual(controller.activeColor, controllerCopy.activeColor)
+      XCTAssertEqual(controller.normalColor, controllerCopy.normalColor)
       XCTAssertEqual(controller.underlineViewMode, controllerCopy.underlineViewMode)
+      XCTAssertEqual(controller.leadingUnderlineLabelTextColor,
+                     controllerCopy.leadingUnderlineLabelTextColor)
+      XCTAssertEqual(controller.trailingUnderlineLabelTextColor,
+                     controllerCopy.trailingUnderlineLabelTextColor)
     } else {
       XCTFail("No copy or copy is wrong class")
     }
   }
 
-  func testCopyingFullWidth() {
+  func testCopyingLegacyFullWidth() {
     let textField = MDCTextField()
 
-    let controller = MDCTextInputControllerFullWidth(textInput: textField)
+    let controller = MDCTextInputControllerLegacyFullWidth(textInput: textField)
     controller.characterCountMax = 49
     controller.characterCountViewMode = .always
+    controller.disabledColor = .yellow
     controller.helperText = "Helper"
     controller.inlinePlaceholderColor = .green
-    controller.underlineColorActive = .blue
-    controller.underlineColorNormal = .white
+    controller.activeColor = .blue
+    controller.normalColor = .white
     controller.underlineViewMode = .always
+    controller.trailingUnderlineLabelTextColor = .purple
 
-    if let controllerCopy = controller.copy() as? MDCTextInputControllerFullWidth {
+    if let controllerCopy = controller.copy() as? MDCTextInputControllerLegacyFullWidth {
       XCTAssertEqual(controller.characterCountMax, controllerCopy.characterCountMax)
       XCTAssertEqual(controller.characterCountViewMode, controllerCopy.characterCountViewMode)
+      XCTAssertEqual(controller.disabledColor, controllerCopy.disabledColor)
       XCTAssertEqual(controller.helperText, controllerCopy.helperText)
       XCTAssertEqual(controller.inlinePlaceholderColor, controllerCopy.inlinePlaceholderColor)
-      XCTAssertEqual(controller.underlineColorActive, controllerCopy.underlineColorActive)
-      XCTAssertEqual(controller.underlineColorNormal, controllerCopy.underlineColorNormal)
+      XCTAssertEqual(controller.activeColor, controllerCopy.activeColor)
+      XCTAssertEqual(controller.normalColor, controllerCopy.normalColor)
       XCTAssertEqual(controller.underlineViewMode, controllerCopy.underlineViewMode)
+      XCTAssertEqual(controller.trailingUnderlineLabelTextColor,
+                     controllerCopy.trailingUnderlineLabelTextColor)
     } else {
       XCTFail("No copy or copy is wrong class")
     }
   }
 
-  func testDynamicTypeDefault() {
+  func testDynamicTypeLegacyDefault() {
     let textField = MDCTextField()
 
     XCTAssertFalse(textField.mdc_adjustsFontForContentSizeCategory)
     textField.mdc_adjustsFontForContentSizeCategory = true
     XCTAssertTrue(textField.mdc_adjustsFontForContentSizeCategory)
 
-    let controller = MDCTextInputControllerDefault(textInput: textField)
+    let controller = MDCTextInputControllerLegacyDefault(textInput: textField)
     XCTAssertNotNil(controller.textInput)
 
     controller.mdc_adjustsFontForContentSizeCategory = true
@@ -94,14 +107,14 @@ class TextFieldControllerDefaultTests: XCTestCase {
     XCTAssertFalse(textField.mdc_adjustsFontForContentSizeCategory)
   }
 
-  func testDynamicTypeFullWidth() {
+  func testDynamicTypeLegacyFullWidth() {
     let textField = MDCTextField()
 
     XCTAssertFalse(textField.mdc_adjustsFontForContentSizeCategory)
     textField.mdc_adjustsFontForContentSizeCategory = true
     XCTAssertTrue(textField.mdc_adjustsFontForContentSizeCategory)
 
-    let controller = MDCTextInputControllerFullWidth(textInput: textField)
+    let controller = MDCTextInputControllerLegacyFullWidth(textInput: textField)
     XCTAssertNotNil(controller.textInput)
 
     controller.mdc_adjustsFontForContentSizeCategory = true
@@ -111,9 +124,9 @@ class TextFieldControllerDefaultTests: XCTestCase {
     XCTAssertFalse(textField.mdc_adjustsFontForContentSizeCategory)
   }
 
-  func testCharacterMaxDefault() {
+  func testCharacterMaxLegacyDefault() {
     let textField = MDCTextField()
-    let controller = MDCTextInputControllerDefault(textInput: textField)
+    let controller = MDCTextInputControllerLegacyDefault(textInput: textField)
 
     let altLeading = "Alternative Helper Test"
     controller.helperText = altLeading
@@ -129,9 +142,9 @@ class TextFieldControllerDefaultTests: XCTestCase {
     XCTAssertEqual(MDCPalette.red.accent400, textField.trailingUnderlineLabel.textColor)
   }
 
-  func testCharacterMaxFullWidth() {
+  func testCharacterMaxLegacyFullWidth() {
     let textField = MDCTextField()
-    let controller = MDCTextInputControllerFullWidth(textInput: textField)
+    let controller = MDCTextInputControllerLegacyFullWidth(textInput: textField)
 
     let altLeading = "Alternative Helper Test"
     controller.helperText = altLeading
@@ -146,17 +159,22 @@ class TextFieldControllerDefaultTests: XCTestCase {
     XCTAssertEqual(MDCPalette.red.accent400, textField.trailingUnderlineLabel.textColor)
   }
 
-  func testErrorsDefault() {
+  func testErrorsLegacyDefault() {
     let textField = MDCTextField()
-    let controller = MDCTextInputControllerDefault(textInput: textField)
+    let controller = MDCTextInputControllerLegacyDefault(textInput: textField)
 
     // Helper text is shown on the leading underline label. Make sure the color and content are as 
     // expected.
     let altLeading = "Alternative Helper Test"
     controller.helperText = altLeading
-    textField.leadingUnderlineLabel.textColor = .green
+    controller.leadingUnderlineLabelTextColor = .green
+
     XCTAssertEqual(.green, textField.leadingUnderlineLabel.textColor)
     XCTAssertEqual(altLeading, textField.leadingUnderlineLabel.text)
+
+    controller.trailingUnderlineLabelTextColor = .white
+    XCTAssertEqual(textField.trailingUnderlineLabel.textColor, .white)
+
     XCTAssertNil(controller.errorText)
 
     // Setting error text should change the color and content of the leading underline label
@@ -214,9 +232,9 @@ class TextFieldControllerDefaultTests: XCTestCase {
     XCTAssertNotEqual(.blue, textField.underline?.color)
   }
 
-  func testPresentationDefault() {
+  func testPresentationLegacyDefault() {
     let textField = MDCTextField()
-    let controller = MDCTextInputControllerDefault(textInput: textField)
+    let controller = MDCTextInputControllerLegacyDefault(textInput: textField)
 
     XCTAssertEqual(controller.isFloatingEnabled, true)
     controller.isFloatingEnabled = false
@@ -241,9 +259,9 @@ class TextFieldControllerDefaultTests: XCTestCase {
     XCTAssertEqual(MDCPalette.blue.accent700, textField.underline?.color)
   }
 
-  func testPresentationFullWidth() {
+  func testPresentationLegacyFullWidth() {
     let textField = MDCTextField()
-    let controller = MDCTextInputControllerFullWidth(textInput: textField)
+    let controller = MDCTextInputControllerLegacyFullWidth(textInput: textField)
 
     textField.sizeToFit()
     XCTAssertEqual(textField.frame.height, 57)
@@ -257,21 +275,25 @@ class TextFieldControllerDefaultTests: XCTestCase {
     XCTAssertEqual(.clear, textField.underline?.color)
     controller.underlineViewMode = .always
     XCTAssertEqual(.clear, textField.underline?.color)
+
+    controller.disabledColor = .red
+    XCTAssertEqual(controller.disabledColor, .clear)
   }
 
-  func testSerializationDefault() {
+  func testSerializationLegacyDefault() {
     let textField = MDCTextField()
 
-    let controller = MDCTextInputControllerDefault(textInput: textField)
+    let controller = MDCTextInputControllerLegacyDefault(textInput: textField)
     controller.characterCountMax = 25
     controller.characterCountViewMode = .always
+    controller.disabledColor = .yellow
     controller.isFloatingEnabled = false
     controller.floatingPlaceholderColor = .purple
     controller.floatingPlaceholderScale = 0.1
     controller.helperText = "Helper"
     controller.inlinePlaceholderColor = .green
-    controller.underlineColorActive = .blue
-    controller.underlineColorNormal = .white
+    controller.activeColor = .blue
+    controller.normalColor = .white
     controller.underlineViewMode = .always
 
     let serializedController = NSKeyedArchiver.archivedData(withRootObject: controller)
@@ -279,13 +301,14 @@ class TextFieldControllerDefaultTests: XCTestCase {
 
     let unserializedController =
       NSKeyedUnarchiver.unarchiveObject(with: serializedController) as?
-      MDCTextInputControllerDefault
+      MDCTextInputControllerLegacyDefault
     XCTAssertNotNil(unserializedController)
 
     unserializedController?.textInput = textField
     XCTAssertEqual(controller.characterCountMax, unserializedController?.characterCountMax)
     XCTAssertEqual(controller.characterCountViewMode,
                    unserializedController?.characterCountViewMode)
+    XCTAssertEqual(controller.disabledColor, unserializedController?.disabledColor)
     XCTAssertEqual(controller.isFloatingEnabled, unserializedController?.isFloatingEnabled)
     XCTAssertEqual(controller.floatingPlaceholderColor,
                    unserializedController?.floatingPlaceholderColor)
@@ -294,17 +317,18 @@ class TextFieldControllerDefaultTests: XCTestCase {
     XCTAssertEqual(controller.helperText, unserializedController?.helperText)
     XCTAssertEqual(controller.inlinePlaceholderColor,
                    unserializedController?.inlinePlaceholderColor)
-    XCTAssertEqual(controller.underlineColorActive, unserializedController?.underlineColorActive)
-    XCTAssertEqual(controller.underlineColorNormal, unserializedController?.underlineColorNormal)
+    XCTAssertEqual(controller.activeColor, unserializedController?.activeColor)
+    XCTAssertEqual(controller.normalColor, unserializedController?.normalColor)
     XCTAssertEqual(controller.underlineViewMode, unserializedController?.underlineViewMode)
   }
 
-  func testSerializationFullWidth() {
+  func testSerializationLegacyFullWidth() {
     let textField = MDCTextField()
 
-    let controller = MDCTextInputControllerFullWidth(textInput: textField)
+    let controller = MDCTextInputControllerLegacyFullWidth(textInput: textField)
     controller.characterCountMax = 25
     controller.characterCountViewMode = .always
+    controller.disabledColor = .yellow
     controller.errorColor = .blue
     controller.inlinePlaceholderColor = .green
 
@@ -313,13 +337,14 @@ class TextFieldControllerDefaultTests: XCTestCase {
 
     let unserializedController =
       NSKeyedUnarchiver.unarchiveObject(with: serializedController) as?
-      MDCTextInputControllerFullWidth
+      MDCTextInputControllerLegacyFullWidth
     XCTAssertNotNil(unserializedController)
 
     unserializedController?.textInput = textField
     XCTAssertEqual(controller.characterCountMax, unserializedController?.characterCountMax)
     XCTAssertEqual(controller.characterCountViewMode,
                    unserializedController?.characterCountViewMode)
+    XCTAssertEqual(unserializedController?.disabledColor, .clear)
     XCTAssertEqual(controller.errorColor, unserializedController?.errorColor)
     XCTAssertEqual(controller.helperText, unserializedController?.helperText)
     XCTAssertEqual(controller.inlinePlaceholderColor,

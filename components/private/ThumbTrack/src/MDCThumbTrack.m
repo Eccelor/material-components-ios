@@ -279,6 +279,20 @@ static inline CGFloat DistanceFromPointToPoint(CGPoint point1, CGPoint point2) {
   }
 }
 
+- (BOOL)shouldDisplayFilledTrack {
+  return [_trackOnLayer superlayer] != nil;
+}
+
+- (void)setShouldDisplayFilledTrack:(BOOL)shouldDisplayFilledTrack {
+  if (shouldDisplayFilledTrack) {
+    if ([_trackOnLayer superlayer] == nil) {
+      [_trackView.layer addSublayer:_trackOnLayer];
+    }
+  } else {
+    [_trackOnLayer removeFromSuperlayer];
+  }
+}
+
 - (void)setMinimumValue:(CGFloat)minimumValue {
   _minimumValue = minimumValue;
   CGFloat previousValue = _value;
@@ -620,6 +634,9 @@ static inline CGFloat DistanceFromPointToPoint(CGPoint point1, CGPoint point2) {
     _valueLabel.textColor = [UIColor whiteColor];
     if ([_delegate respondsToSelector:@selector(thumbTrack:stringForValue:)]) {
       _valueLabel.text = [_delegate thumbTrack:self stringForValue:_value];
+      if (CGRectGetWidth(_valueLabel.frame) > 1) {
+        _valueLabel.frame = MDCRectAlignToScale(_valueLabel.frame, [UIScreen mainScreen].scale);
+      }
     }
   }
 

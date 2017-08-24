@@ -14,15 +14,4 @@
  limitations under the License.
  */
 
-#import "MDCTextInputController.h"
-
-/**
- Material Design compliant text field. The logic for 'automagic' error states changes:
- underline color, underline text color.
- https://www.google.com/design/spec/components/text-fields.html#text-fields-single-line-text-field
-
- The placeholder is laid out inline and the character count is also inline to the right.
- */
-@interface MDCTextInputControllerFullWidth : NSObject <MDCTextInputController>
-
-@end
+#import "MDCMaskedTransition.h"
