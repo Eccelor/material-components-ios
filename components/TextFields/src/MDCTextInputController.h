@@ -25,6 +25,20 @@
 @protocol MDCTextInputController <NSObject, NSCoding, NSCopying, MDCTextInputPositioningDelegate>
 
 /**
+ Color for decorations that indicates the input is currently editing.
+
+ Default is activeColorDefault.
+ */
+@property(nonatomic, null_resettable, strong) UIColor *activeColor;
+
+/**
+ Default value for activeColor.
+
+ Default is blue.
+ */
+@property(class, nonatomic, null_resettable, strong) UIColor *activeColorDefault;
+
+/**
  The character counter. Override to use a custom character counter.
 
  Default is an internal instance MDCTextInputAllCharactersCounter. Setting this property to null
@@ -57,6 +71,20 @@
  Default is UITextFieldViewModeNever.
  */
 @property(nonatomic, assign) UITextFieldViewMode characterCountViewMode;
+
+/**
+ Color for decorations that indicates the input is not enabled / not accepting touch.
+
+ Default is disabledColorDefault.
+ */
+@property(nonatomic, null_resettable, strong) UIColor *disabledColor;
+
+/**
+ Default value for disabledColor.
+
+ Default is blue.
+ */
+@property(class, nonatomic, null_resettable, strong) UIColor *disabledColorDefault;
 
 /**
  The color used to denote error state in the underline, the errorText's label, the placeholder and
@@ -102,6 +130,20 @@
  */
 @property(class, nonatomic, null_resettable, strong) UIColor *inlinePlaceholderColorDefault;
 
+/**
+ The color applied to the leading side underline label when not in error state.
+
+ Default is leadingUnderlineLabelTextColorDefault;
+ */
+@property(nonatomic, null_resettable, strong) UIColor *leadingUnderlineLabelTextColor;
+
+/**
+ Default value for leadingUnderlineLabelTextColor.
+
+ Default is black with Material Design hint text opacity.
+ */
+@property(class, nonatomic, null_resettable, strong) UIColor *leadingUnderlineLabelTextColorDefault;
+
 /*
  Indicates whether the alert contents should automatically update their font when the device’s
  UIContentSizeCategory changes.
@@ -121,8 +163,37 @@
  */
 @property(class, nonatomic, assign) BOOL mdc_adjustsFontForContentSizeCategoryDefault;
 
+/**
+ Color for decorations that indicates the input is enabled but not currently editing.
+
+ Default is normalColorDefault.
+ */
+@property(nonatomic, null_resettable, strong) UIColor *normalColor;
+
+/**
+ Default value for normalColor.
+
+ Default is black with Material Design hint text opacity which is the same as
+ inlinePlaceholderColorDefault.
+ */
+@property(class, nonatomic, null_resettable, strong) UIColor *normalColorDefault;
+
 /** The text input the controller is affecting. */
 @property(nonatomic, nullable, strong) UIView<MDCTextInput> *textInput;
+
+/**
+ The color applied to the trailing side underline label when not in error state.
+
+ Default is trailingUnderlineLabelTextColorDefault;
+ */
+@property(nonatomic, nullable, strong) UIColor *trailingUnderlineLabelTextColor;
+
+/**
+ Default value for trailingUnderlineLabelTextColor.
+
+ Default is black with Material Design hint text opacity.
+ */
+@property(class, nonatomic, nullable, strong) UIColor *trailingUnderlineLabelTextColorDefault;
 
 /**
  Controls when the underline will be shown.
@@ -139,35 +210,6 @@
  Default is UITextFieldViewModeAlways.
  */
 @property(class, nonatomic, assign) UITextFieldViewMode underlineViewModeDefault;
-
-/**
- Color the underline changes to when the input is editing.
-
- Default is underlineColorActiveDefault.
- */
-@property(nonatomic, null_resettable, strong) UIColor *underlineColorActive;
-
-/**
- Default value for underlineColorActive.
-
- Default is blue.
- */
-@property(class, nonatomic, null_resettable, strong) UIColor *underlineColorActiveDefault;
-
-/**
- Color of the underline when the input is not editing but still enabled.
-
- Default is underlineColorNormalDefault.
- */
-@property(nonatomic, null_resettable, strong) UIColor *underlineColorNormal;
-
-/**
- Default value for underlineColorNormal.
-
- Default is black with Material Design hint text opacity which is the same as
- inlinePlaceholderColorDefault.
- */
-@property(class, nonatomic, null_resettable, strong) UIColor *underlineColorNormalDefault;
 
 /**
  Convenience init. Never fails.

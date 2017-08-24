@@ -217,7 +217,10 @@ static const NSInteger kSupplementaryViewZIndex = 99;
       sectionFrame = CGRectUnion(sectionFrame, attribute.frame);
     }
   }
-  decorationAttr.frame = sectionFrame;
+  if (!CGRectIsNull(sectionFrame)) {
+    decorationAttr.frame = sectionFrame;
+  }
+
   decorationAttr.zIndex = -1;
   return decorationAttr;
 }
@@ -374,7 +377,7 @@ static const NSInteger kSupplementaryViewZIndex = 99;
   attr.separatorColor = self.styler.separatorColor;
   attr.separatorInset = self.styler.separatorInset;
   attr.separatorLineHeight = self.styler.separatorLineHeight;
-  attr.shouldHideSeparators = self.styler.shouldHideSeparators;
+  attr.shouldHideSeparators = [self.styler shouldHideSeparatorForCellLayoutAttributes:attr];
 
   // Set inlay and hidden state if necessary.
   [self inlayAttributeIfNecessary:attr];
@@ -398,9 +401,9 @@ static const NSInteger kSupplementaryViewZIndex = 99;
             respondsToSelector:@selector(collectionView:layout:insetForSectionAtIndex:)]) {
       id<UICollectionViewDelegateFlowLayout> flowLayoutDelegate =
           (id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate;
-        insets = [flowLayoutDelegate collectionView:self.collectionView
-                                             layout:self.collectionView.collectionViewLayout
-                             insetForSectionAtIndex:attr.indexPath.section];
+      insets = [flowLayoutDelegate collectionView:self.collectionView
+                                           layout:self.collectionView.collectionViewLayout
+                           insetForSectionAtIndex:attr.indexPath.section];
     } else {
       insets = [self insetsAtSectionIndex:attr.indexPath.section];
     }

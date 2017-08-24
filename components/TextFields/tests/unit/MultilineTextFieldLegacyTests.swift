@@ -14,12 +14,15 @@
  limitations under the License.
  */
 
+// swiftlint:disable function_body_length
+// swiftlint:disable type_body_length
+
 import XCTest
 import MaterialComponents.MaterialTextFields
 
-class TextFieldTests: XCTestCase {
+class MultilineTextFieldLegacyTests: XCTestCase {
   func testAttributedSetters() {
-    let textField = MDCTextField()
+    let textField = MDCMultilineTextField()
 
     let string = "attributed"
     textField.attributedPlaceholder = NSAttributedString(string: string)
@@ -29,8 +32,8 @@ class TextFieldTests: XCTestCase {
     XCTAssertEqual(textField.attributedText?.string, string)
   }
 
-  func testCopyingTextField() {
-    let textField = MDCTextField()
+  func testCopying() {
+    let textField = MDCMultilineTextField()
 
     textField.clearButtonColor = .red
     textField.clearButtonMode = .always
@@ -44,7 +47,10 @@ class TextFieldTests: XCTestCase {
     textField.underline?.color = .red
     textField.underline?.lineHeight = 10
 
-    if let textFieldCopy = textField.copy() as? MDCTextField {
+    if let textFieldCopy = textField.copy() as? MDCMultilineTextField {
+      XCTAssertNotNil(textField.textView)
+      XCTAssertTrue(textField.subviews.contains(textField.textView!))
+
       XCTAssertEqual(textField.attributedPlaceholder, textFieldCopy.attributedPlaceholder)
       XCTAssertEqual(textField.attributedText, textFieldCopy.attributedText)
       XCTAssertEqual(textField.clearButtonColor, textFieldCopy.clearButtonColor)
@@ -65,15 +71,15 @@ class TextFieldTests: XCTestCase {
   }
 
   func testFontChange() {
-    let textField = MDCTextField()
+    let textField = MDCMultilineTextField()
 
     textField.font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
     XCTAssertEqual(UIFont.systemFont(ofSize: UIFont.labelFontSize), textField.font)
     XCTAssertNotEqual(UIFont.systemFont(ofSize: UIFont.smallSystemFontSize), textField.font)
   }
 
-  func testTextFieldMDCDynamicTypeAPI() {
-    let textField = MDCTextField()
+  func testMDCDynamicTypeAPI() {
+    let textField = MDCMultilineTextField()
 
     textField.mdc_adjustsFontForContentSizeCategory = true
     XCTAssertTrue(textField.mdc_adjustsFontForContentSizeCategory)
@@ -84,30 +90,12 @@ class TextFieldTests: XCTestCase {
     }
   }
 
-  func testTextFieldOverlayViews() {
-    let textField = MDCTextField()
-
-    let leftView = UILabel()
-    let rightView = UILabel()
-    leftView.text = "X"
-    textField.leftView = leftView
-    textField.rightView = rightView
-    textField.leftViewMode = .always
-    textField.rightViewMode = .always
-
-    // This will trigger autolayout to scream in the console. It's ok. It's for the testing.
-    textField.layoutIfNeeded()
-
-    XCTAssertTrue(textField.subviews.contains(leftView))
-    XCTAssertTrue(textField.subviews.contains(rightView))
-  }
-
-  func testSerializationTextField() {
-    let textField = MDCTextField()
+  func testSerializationLegacy() {
+    let textField = MDCMultilineTextField()
     textField.translatesAutoresizingMaskIntoConstraints = false
     textField.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing"
 
-    let controller = MDCTextInputControllerDefault(textInput: textField)
+    let controller = MDCTextInputControllerLegacyDefault(textInput: textField)
     XCTAssertNotNil(controller.textInput)
 
     let leadingText = "Serialized Helper Test"
@@ -118,7 +106,7 @@ class TextFieldTests: XCTestCase {
     XCTAssertNotNil(serializedInput)
 
     let unserializedInput =
-      NSKeyedUnarchiver.unarchiveObject(with: serializedInput) as? MDCTextField
+      NSKeyedUnarchiver.unarchiveObject(with: serializedInput) as? MDCMultilineTextField
     XCTAssertNotNil(unserializedInput)
 
     XCTAssertEqual(textField.translatesAutoresizingMaskIntoConstraints,
@@ -135,18 +123,22 @@ class TextFieldTests: XCTestCase {
   }
 
   func testSizing() {
-    let textField = MDCTextField(frame: CGRect(x: 0, y: 0, width: 300, height: 0))
+    let textField = MDCMultilineTextField(frame: CGRect(x: 0, y: 0, width: 300, height: 0))
     XCTAssertEqual(textField.frame.height, 0)
 
     textField.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
     XCTAssertEqual(textField.frame.height, 40)
 
     textField.sizeToFit()
+    XCTAssertEqual(textField.frame.height, 49)
+
+    textField.leadingUnderlineLabel.text = "Helper"
+    textField.sizeToFit()
     XCTAssertEqual(textField.frame.height, 66)
   }
 
   func testUnderlineSetters() {
-    let textField = MDCTextField()
+    let textField = MDCMultilineTextField()
 
     textField.underline?.color = .red
     textField.underline?.lineHeight = 10
